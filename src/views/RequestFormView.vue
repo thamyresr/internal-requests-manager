@@ -1,16 +1,18 @@
 <script setup>
 import { computed, reactive, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useRequestsStore } from "../stores/requestsStore";
+import { useRequestsApiStore } from "../stores/requestsApiStore";
 
 const route = useRoute();
 const router = useRouter();
-const store = useRequestsStore();
+const store = useRequestsApiStore();
 
-const requestId = computed(() => (route.params.id ? String(route.params.id) : null));
-const isEdit = computed(() => Boolean(requestId.value));
+const requestId = computed(() => route.params.id || null);
+const isEdit = computed(() => requestId.value != null);
 
 const notFound = ref(false);
+const isSubmitting = ref(false);
+const isLoading = ref(false);
 
 const form = reactive({
   title: "",
@@ -45,7 +47,6 @@ function validate() {
     form.description.trim().length >= 10
       ? ""
       : "Description must be at least 10 characters.";
-
   return !errors.title && !errors.description;
 }
 
@@ -62,6 +63,10 @@ function toPayload() {
   };
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function onSubmit() {
   if (isSubmitting.value) return;
   if (!validate()) return;
@@ -69,18 +74,18 @@ async function onSubmit() {
   isSubmitting.value = true;
 
   try {
-    await sleep(800); // demo loading; remove later
+    await sleep(800);
 
     const payload = toPayload();
 
     if (isEdit.value) {
-      const updated = store.update(requestId.value, payload);
+      const updated = await store.update(requestId.value, payload);
       if (!updated) {
         notFound.value = true;
         return;
       }
     } else {
-      store.create(payload);
+      await store.create(payload);
     }
 
     router.push("/dashboard");
@@ -93,7 +98,7 @@ function onCancel() {
   router.push("/dashboard");
 }
 
-// Load data when editing (reacts to route param changes too)
+// Load data when editing
 watchEffect(() => {
   notFound.value = false;
 
@@ -102,29 +107,33 @@ watchEffect(() => {
     return;
   }
 
-  const existing = store.getById(requestId.value);
-  if (!existing) {
-    notFound.value = true;
-    return;
-  }
+  const id = requestId.value;
 
-  form.title = existing.title || "";
-  form.description = existing.description || "";
-  form.type = existing.type || "Access";
-  form.priority = existing.priority || "Medium";
-  form.status = existing.status || "Open";
-  form.requester = existing.requester || "You";
-  form.assignee = existing.assignee || "";
-  form.dueDate = existing.dueDate || "";
+  isLoading.value = true;
+
+  (async () => {
+    try {
+      const existing = await store.getById(id);
+      if (!existing) {
+        notFound.value = true;
+        return;
+      }
+
+      form.title = existing.title || "";
+      form.description = existing.description || "";
+      form.type = existing.type || "Access";
+      form.priority = existing.priority || "Medium";
+      form.status = existing.status || "Open";
+      form.requester = existing.requester || "You";
+      form.assignee = existing.assignee || "";
+      form.dueDate = existing.dueDate || "";
+    } finally {
+      isLoading.value = false;
+    }
+  })();
 });
-
-const isSubmitting = ref(false);
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 </script>
+
 
 <template>
   <div class="space-y-6">

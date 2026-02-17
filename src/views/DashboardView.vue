@@ -1,12 +1,16 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useRequestsStore } from "../stores/requestsStore";
+import { computed, ref, onMounted } from "vue";
+import { useRequestsApiStore } from "../stores/requestsApiStore";
 
-const store = useRequestsStore();
+const store = useRequestsApiStore();
 
 const statusFilter = ref("All");
 const typeFilter = ref("All");
 const query = ref("");
+
+onMounted(() => {
+  store.load();
+});
 
 const filteredRequests = computed(() => {
   const q = query.value.trim().toLowerCase();
@@ -42,12 +46,6 @@ function onDelete(id) {
   const ok = confirm("Delete this request?");
   if (!ok) return;
   store.remove(id);
-}
-
-function onReset() {
-  const ok = confirm("Reset demo data?");
-  if (!ok) return;
-  store.reset();
 }
 
 function statusClasses(status) {
@@ -93,14 +91,6 @@ function priorityClasses(priority) {
       </div>
 
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-        <button
-          type="button"
-          class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
-          @click="onReset"
-        >
-          Reset demo data
-        </button>
-
         <RouterLink
           to="/requests/new"
           class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
