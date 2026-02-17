@@ -48,38 +48,6 @@ A modern, user-friendly web application built with **Vue 3** for managing intern
 
 ---
 
-## 📁 Project Structure
-
-```
-internal-requests-manager/
-├── public/                      # Static assets
-├── src/
-│   ├── assets/                  # CSS and style assets
-│   │   └── main.css            # Global styles
-│   ├── components/              # Reusable Vue components
-│   │   └── AppHeader.vue        # Navigation header
-│   ├── router/
-│   │   └── index.js            # Route configuration and guards
-│   ├── services/
-│   │   └── requestsApi.js      # API service for requests
-│   ├── stores/
-│   │   ├── authStore.js        # Authentication state management
-│   │   └── requestsApiStore.js # Requests state management
-│   ├── views/                   # Page components
-│   │   ├── DashboardView.vue   # Main dashboard page
-│   │   ├── LoginView.vue       # Login page
-│   │   └── RequestFormView.vue # Create/edit request page
-│   ├── App.vue                  # Root application component
-│   ├── main.js                  # Application entry point
-│   └── style.css               # Additional styles
-├── db.json                      # Mock database for JSON Server
-├── vite.config.js              # Vite configuration
-├── package.json                # Project dependencies
-└── README.md                   # This file
-```
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -172,19 +140,6 @@ The application uses a simple localStorage-based authentication system for devel
 
 **Note**: This authentication system is suitable for development and portfolio demonstration only. For production use, implement proper backend authentication with secure tokens and password hashing.
 
-### Auth Store Functions
-
-```javascript
-// Sign in a user
-signIn(email)        // Sets user and saves to localStorage
-
-// Sign out a user
-signOut()            // Clears user and removes from localStorage
-
-// Check authentication status
-isAuthenticated      // Computed property returning boolean
-```
-
 ---
 
 ## 🎯 Project Purpose
@@ -221,12 +176,6 @@ Potential features for future versions:
 - User profile management
 - Admin dashboard
 - Role-based access control
-
----
-
-## 📝 License
-
-This project is open source and available for learning and portfolio purposes.
 
 ---
 
