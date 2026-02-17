@@ -1,11 +1,12 @@
-<script setup>
-</script>
-
 <template>
-  <RouterView />
+  <div class="min-h-screen bg-gray-50">
+    <AppHeader />
+    <main class="max-w-6xl mx-auto px-4 py-6">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-
-<style scoped>
-
-</style>
+<script setup>
+import AppHeader from "./components/AppHeader.vue";
+</script>
