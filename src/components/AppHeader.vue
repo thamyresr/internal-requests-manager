@@ -7,7 +7,11 @@
       </div>
 
       <div class="text-sm text-gray-600">
-        <span class="hidden sm:inline">Signed in</span>
+        <RouterLink
+        to="/requests/new"
+      >
+      <span class="hidden sm:inline">Signed in</span>
+      </RouterLink>
       </div>
     </div>
   </header>
