@@ -62,22 +62,31 @@ function toPayload() {
   };
 }
 
-function onSubmit() {
+async function onSubmit() {
+  if (isSubmitting.value) return;
   if (!validate()) return;
 
-  const payload = toPayload();
+  isSubmitting.value = true;
 
-  if (isEdit.value) {
-    const updated = store.update(requestId.value, payload);
-    if (!updated) {
-      notFound.value = true;
-      return;
+  try {
+    await sleep(800); // demo loading; remove later
+
+    const payload = toPayload();
+
+    if (isEdit.value) {
+      const updated = store.update(requestId.value, payload);
+      if (!updated) {
+        notFound.value = true;
+        return;
+      }
+    } else {
+      store.create(payload);
     }
-  } else {
-    store.create(payload);
-  }
 
-  router.push("/dashboard");
+    router.push("/dashboard");
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 function onCancel() {
@@ -108,6 +117,13 @@ watchEffect(() => {
   form.assignee = existing.assignee || "";
   form.dueDate = existing.dueDate || "";
 });
+
+const isSubmitting = ref(false);
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 </script>
 
 <template>
@@ -134,11 +150,14 @@ watchEffect(() => {
 
         <button
           type="button"
-          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          :disabled="isSubmitting"
           @click="onSubmit"
         >
-          {{ isEdit ? "Save Changes" : "Create Request" }}
-        </button>
+          <span v-if="isSubmitting">{{ isEdit ? "Saving..." : "Creating..." }}</span>
+          <span v-else>{{ isEdit ? "Save Changes" : "Create Request" }}</span>
+</button>
+
       </div>
     </header>
 
@@ -155,10 +174,11 @@ watchEffect(() => {
 
       <button
         type="button"
-        class="mt-4 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+        class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+        :disabled="isSubmitting"
         @click="onCancel"
       >
-        Back to Dashboard
+        Cancel
       </button>
     </section>
 
