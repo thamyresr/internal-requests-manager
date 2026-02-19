@@ -34,9 +34,6 @@ function onSubmit() {
   <div class="min-h-[calc(100vh-64px)] flex items-center justify-center">
     <div class="w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <h1 class="text-xl font-semibold text-gray-900">Sign in</h1>
-      <p class="mt-1 text-sm text-gray-600">
-        Demo login (in-memory). Refresh will sign you out.
-      </p>
 
       <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
         <div>

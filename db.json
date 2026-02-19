@@ -21,17 +21,6 @@
       "requester": "You",
       "assignee": "aaa2",
       "dueDate": "2026-02-27"
-    },
-    {
-      "id": "1aa2",
-      "title": "EDU",
-      "description": "oasuiodasuhdasui",
-      "type": "Access",
-      "priority": "Medium",
-      "status": "Open",
-      "requester": "You",
-      "assignee": "EDU",
-      "dueDate": "2026-02-10"
     }
   ]
 }
