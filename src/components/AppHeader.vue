@@ -23,7 +23,7 @@ function toggleDropdown() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 border-b border-blue-100 bg-gradient-to-r from-blue-50 via-blue-50 to-indigo-50 shadow-sm">
+  <header class="sticky top-0 z-50 border-b border-blue-100 bg-gradient-to-r from-blue-50 via-blue-50 to-indigo-50 shadow-sm" role="banner" aria-label="Application Header">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo e Título -->
@@ -31,16 +31,18 @@ function toggleDropdown() {
           <RouterLink 
             to="/dashboard" 
             class="flex items-center gap-2 font-bold text-lg bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+            aria-label="Internal Requests Manager - Dashboard"
           >
         
             Internal Requests Manager
           </RouterLink>
 
           <!-- Nav Links -->
-          <nav v-if="isLoggedIn" class="hidden sm:flex items-center gap-0">
+          <nav v-if="isLoggedIn" class="hidden sm:flex items-center gap-0" aria-label="Main Navigation">
             <RouterLink
               to="/dashboard"
               class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors relative group"
+              aria-label="Dashboard"
             >
               Dashboard
               <span class="absolute bottom-0 left-4 right-4 h-0.5 bg-blue-600 rounded transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
@@ -57,9 +59,13 @@ function toggleDropdown() {
                 type="button"
                 @click="toggleDropdown"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-colors"
+                :aria-expanded="isDropdownOpen"
+                aria-haspopup="true"
+                aria-controls="user-menu-dropdown"
+                aria-label="User menu"
               >
                 <!-- Avatar -->
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-sm font-semibold shadow-sm">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-sm font-semibold shadow-sm" aria-hidden="true">
                   {{ userInitial }}
                 </div>
                 <span class="hidden sm:inline text-sm text-gray-700">{{ email }}</span>
@@ -69,6 +75,7 @@ function toggleDropdown() {
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
                 </svg>
@@ -86,6 +93,8 @@ function toggleDropdown() {
                 <div
                   v-if="isDropdownOpen"
                   class="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 overflow-hidden"
+                  id="user-menu-dropdown"
+                  role="menu"
                 >
                   <div class="px-4 py-3 border-b border-gray-100">
                     <p class="text-sm text-gray-600">Logged in as</p>
@@ -96,8 +105,10 @@ function toggleDropdown() {
                     type="button"
                     @click="onSignOut"
                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2"
+                    role="menuitem"
+                    aria-label="Sign out"
                   >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
                     Sign out
@@ -111,6 +122,7 @@ function toggleDropdown() {
             <RouterLink
               to="/login"
               class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium hover:shadow-lg hover:shadow-blue-200 transition-all duration-200"
+              aria-label="Sign in"
             >
               Sign in
             </RouterLink>

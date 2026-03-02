@@ -35,27 +35,33 @@ function onSubmit() {
     <div class="w-full max-w-md rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
       <h1 class="text-xl font-semibold text-gray-900">Sign in</h1>
 
-      <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
+      <form class="mt-6 space-y-4" @submit.prevent="onSubmit" novalidate>
         <div>
-          <label class="block text-sm font-medium text-gray-900">Email</label>
+          <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
           <input
+            id="email"
             v-model="form.email"
             type="email"
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             placeholder="you@company.com"
+            :aria-describedby="errors.email ? 'email-error' : undefined"
+            required
           />
-          <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+          <p v-if="errors.email" id="email-error" class="mt-1 text-sm text-red-600" role="alert">{{ errors.email }}</p>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-900">Password</label>
+          <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
           <input
+            id="password"
             v-model="form.password"
             type="password"
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             placeholder="password"
+            :aria-describedby="errors.password ? 'password-error' : undefined"
+            required
           />
-          <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
+          <p v-if="errors.password" id="password-error" class="mt-1 text-sm text-red-600" role="alert">{{ errors.password }}</p>
         </div>
 
         <button

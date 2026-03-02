@@ -138,42 +138,21 @@ watchEffect(() => {
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <header class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h1 class="text-2xl font-semibold text-gray-900">
-          {{ isEdit ? "Edit Request" : "New Request" }}
-        </h1>
-        <p class="mt-1 text-sm text-gray-600">
-          {{ isEdit ? "Update request details." : "Create a new internal request." }}
-        </p>
-      </div>
-
-      <div class="flex gap-2">
-        <button
-          type="button"
-          class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
-          @click="onCancel"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="button"
-          class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-          :disabled="isSubmitting"
-          @click="onSubmit"
-        >
-          <span v-if="isSubmitting">{{ isEdit ? "Saving..." : "Creating..." }}</span>
-          <span v-else>{{ isEdit ? "Save Changes" : "Create Request" }}</span>
-</button>
-
-      </div>
+    <header>
+      <h1 class="text-2xl font-semibold text-gray-900">
+        {{ isEdit ? "Edit Request" : "New Request" }}
+      </h1>
+      <p class="mt-1 text-sm text-gray-600">
+        {{ isEdit ? "Update request details." : "Create a new internal request." }}
+      </p>
     </header>
 
     <!-- Not found state (edit mode only) -->
     <section
       v-if="notFound"
       class="rounded-xl border border-red-200 bg-red-50 p-5"
+      role="alert"
+      aria-live="polite"
     >
       <h2 class="text-sm font-semibold text-red-800">Request not found</h2>
       <p class="mt-1 text-sm text-red-700">
@@ -193,31 +172,37 @@ watchEffect(() => {
 
     <!-- Form card -->
     <section v-else class="rounded-xl border border-gray-200 bg-white p-5">
-      <form class="space-y-5" @submit.prevent="onSubmit">
+      <form class="space-y-5" @submit.prevent="onSubmit" novalidate>
         <!-- Title -->
         <div>
-          <label class="block text-sm font-medium text-gray-900">Title</label>
+          <label for="form-title" class="block text-sm font-medium text-gray-900">Title</label>
           <input
+            id="form-title"
             v-model="form.title"
             type="text"
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             placeholder="e.g., VPN access for contractor"
+            :aria-describedby="errors.title ? 'title-error' : undefined"
+            required
           />
-          <p v-if="errors.title" class="mt-1 text-sm text-red-600">
+          <p v-if="errors.title" id="title-error" class="mt-1 text-sm text-red-600" role="alert">
             {{ errors.title }}
           </p>
         </div>
 
         <!-- Description -->
         <div>
-          <label class="block text-sm font-medium text-gray-900">Description</label>
+          <label for="form-description" class="block text-sm font-medium text-gray-900">Description</label>
           <textarea
+            id="form-description"
             v-model="form.description"
             rows="4"
             class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
             placeholder="Provide context, expected outcome, and any relevant details..."
+            :aria-describedby="errors.description ? 'description-error' : undefined"
+            required
           />
-          <p v-if="errors.description" class="mt-1 text-sm text-red-600">
+          <p v-if="errors.description" id="description-error" class="mt-1 text-sm text-red-600" role="alert">
             {{ errors.description }}
           </p>
         </div>
@@ -225,10 +210,12 @@ watchEffect(() => {
         <!-- Type / Priority -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="block text-sm font-medium text-gray-900">Type</label>
+            <label for="form-type" class="block text-sm font-medium text-gray-900">Type</label>
             <select
+              id="form-type"
               v-model="form.type"
               class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              aria-label="Request type"
             >
               <option>Access</option>
               <option>Equipment</option>
@@ -239,10 +226,12 @@ watchEffect(() => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900">Priority</label>
+            <label for="form-priority" class="block text-sm font-medium text-gray-900">Priority</label>
             <select
+              id="form-priority"
               v-model="form.priority"
               class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              aria-label="Request priority"
             >
               <option>Low</option>
               <option>Medium</option>
@@ -254,10 +243,12 @@ watchEffect(() => {
         <!-- Status / Due date -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="block text-sm font-medium text-gray-900">Status</label>
+            <label for="form-status" class="block text-sm font-medium text-gray-900">Status</label>
             <select
+              id="form-status"
               v-model="form.status"
               class="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              aria-label="Request status"
             >
               <option>Open</option>
               <option>In Progress</option>
@@ -268,11 +259,13 @@ watchEffect(() => {
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900">Due date (optional)</label>
+            <label for="form-due-date" class="block text-sm font-medium text-gray-900">Due date (optional)</label>
             <input
+              id="form-due-date"
               v-model="form.dueDate"
               type="date"
               class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              aria-label="Request due date (optional)"
             />
           </div>
         </div>
@@ -280,44 +273,53 @@ watchEffect(() => {
         <!-- Requester / Assignee -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label class="block text-sm font-medium text-gray-900">Requester</label>
+            <label for="form-requester" class="block text-sm font-medium text-gray-900">Requester</label>
             <input
+              id="form-requester"
               v-model="form.requester"
               type="text"
               class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               placeholder="e.g., Thamyres"
+              aria-label="Request requester name"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900">Assignee (optional)</label>
+            <label for="form-assignee" class="block text-sm font-medium text-gray-900">Assignee (optional)</label>
             <input
+              id="form-assignee"
               v-model="form.assignee"
               type="text"
               class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               placeholder="e.g., Alex"
+              aria-label="Request assignee name (optional)"
             />
           </div>
         </div>
-
-        <!-- Mobile buttons -->
-        <div class="flex gap-2 sm:hidden">
-          <button
-            type="button"
-            class="w-1/2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
-            @click="onCancel"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            class="w-1/2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-          >
-            {{ isEdit ? "Save" : "Create" }}
-          </button>
-        </div>
       </form>
     </section>
+
+    <!-- Form buttons -->
+    <div class="flex gap-2 justify-start">
+      <button
+        type="button"
+        class="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+        @click="onCancel"
+        aria-label="Cancel and return to dashboard"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        @click="onSubmit"
+        class="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transition-colors"
+        :disabled="isSubmitting"
+        :aria-label="isEdit ? 'Save changes' : 'Create request'"
+      >
+        <span v-if="isSubmitting">{{ isEdit ? "Saving..." : "Creating..." }}</span>
+        <span v-else>{{ isEdit ? "Save" : "Create" }}</span>
+      </button>
+    </div>
   </div>
 </template>
