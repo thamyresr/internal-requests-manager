@@ -57,12 +57,11 @@ function toggleDropdown() {
             <div class="relative">
               <button
                 type="button"
+                id="user-menu-button"
                 @click="toggleDropdown"
                 class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-colors"
                 :aria-expanded="isDropdownOpen"
                 aria-haspopup="true"
-                aria-controls="user-menu-dropdown"
-                aria-label="User menu"
               >
                 <!-- Avatar -->
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-sm font-semibold shadow-sm" aria-hidden="true">
@@ -93,8 +92,8 @@ function toggleDropdown() {
                 <div
                   v-if="isDropdownOpen"
                   class="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 overflow-hidden"
-                  id="user-menu-dropdown"
                   role="menu"
+                  aria-labelledby="user-menu-button"
                 >
                   <div class="px-4 py-3 border-b border-gray-100">
                     <p class="text-sm text-gray-600">Logged in as</p>

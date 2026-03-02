@@ -105,22 +105,22 @@ function priorityClasses(priority) {
     <section class="grid grid-cols-1 gap-3 sm:grid-cols-4" aria-label="Request Statistics">
       <div class="rounded-xl border border-gray-200 bg-white p-4">
         <p class="text-sm text-gray-500">Total</p>
-        <p class="mt-1 text-2xl font-semibold text-gray-900" aria-label="Total requests">{{ stats.total }}</p>
+        <p class="mt-1 text-2xl font-semibold text-gray-900">{{ stats.total }}</p>
       </div>
 
       <div class="rounded-xl border border-gray-200 bg-white p-4">
         <p class="text-sm text-gray-500">Open</p>
-        <p class="mt-1 text-2xl font-semibold text-blue-700" aria-label="Open requests">{{ stats.open }}</p>
+        <p class="mt-1 text-2xl font-semibold text-blue-700">{{ stats.open }}</p>
       </div>
 
       <div class="rounded-xl border border-gray-200 bg-white p-4">
         <p class="text-sm text-gray-500">In Progress</p>
-        <p class="mt-1 text-2xl font-semibold text-amber-700" aria-label="In Progress requests">{{ stats.inProgress }}</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-700">{{ stats.inProgress }}</p>
       </div>
 
       <div class="rounded-xl border border-gray-200 bg-white p-4">
         <p class="text-sm text-gray-500">Done</p>
-        <p class="mt-1 text-2xl font-semibold text-green-700" aria-label="Completed requests">{{ stats.done }}</p>
+        <p class="mt-1 text-2xl font-semibold text-green-700">{{ stats.done }}</p>
       </div>
     </section>
 
@@ -130,46 +130,47 @@ function priorityClasses(priority) {
       <div class="border-b border-gray-200 p-4">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <label for="status-filter" class="text-sm text-gray-600">
+            <div>
+              <label for="status-filter" class="text-sm font-medium text-gray-900">Status</label>
               <select
                 id="status-filter"
                 v-model="statusFilter"
-                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 sm:w-auto"
-                aria-label="Filter by status"
+                class="block mt-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               >
-                <option value="All">Status: All</option>
+                <option value="All">All</option>
                 <option value="Open">Open</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
                 <option value="Done">Done</option>
               </select>
-            </label>
+            </div>
 
-            <label for="type-filter" class="text-sm text-gray-600">
+            <div>
+              <label for="type-filter" class="text-sm font-medium text-gray-900">Type</label>
               <select
                 id="type-filter"
                 v-model="typeFilter"
-                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 sm:w-auto"
-                aria-label="Filter by type"
+                class="block mt-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               >
-                <option value="All">Type: All</option>
+                <option value="All">All</option>
                 <option value="Access">Access</option>
                 <option value="Equipment">Equipment</option>
                 <option value="Purchase">Purchase</option>
                 <option value="Support">Support</option>
                 <option value="Other">Other</option>
               </select>
-            </label>
+            </div>
           </div>
 
-          <label for="search-input" class="w-full sm:w-80">
+          <label for="search-input" class="w-full sm:w-80 block">
+            <span class="text-sm font-medium text-gray-900 block mb-1">Search</span>
             <input
               id="search-input"
               v-model="query"
+              type="text"
               class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
               placeholder="Search requests..."
-              aria-label="Search requests by title, description, requester, or assignee"
             />
           </label>
         </div>
@@ -208,13 +209,13 @@ function priorityClasses(priority) {
               </td>
 
               <td class="px-4 py-3">
-                <span class="rounded-full px-2 py-1 text-xs font-medium" :class="priorityClasses(r.priority)" :aria-label="`Priority: ${r.priority}`">
+                <span class="rounded-full px-2 py-1 text-xs font-medium" :class="priorityClasses(r.priority)">
                   {{ r.priority }}
                 </span>
               </td>
 
               <td class="px-4 py-3">
-                <span class="rounded-full px-2 py-1 text-xs font-medium" :class="statusClasses(r.status)" :aria-label="`Status: ${r.status}`">
+                <span class="rounded-full px-2 py-1 text-xs font-medium" :class="statusClasses(r.status)">
                   {{ r.status }}
                 </span>
               </td>
