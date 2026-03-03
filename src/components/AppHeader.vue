@@ -20,6 +20,18 @@ function onSignOut() {
 function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value;
 }
+
+function closeDropdown() {
+  isDropdownOpen.value = false;
+}
+
+function onKeyDown(event) {
+  // Fechar dropdown com ESC
+  if (event.key === "Escape") {
+    closeDropdown();
+    document.getElementById("user-menu-button")?.focus();
+  }
+}
 </script>
 
 <template>
@@ -59,7 +71,8 @@ function toggleDropdown() {
                 type="button"
                 id="user-menu-button"
                 @click="toggleDropdown"
-                class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-colors"
+                @keydown="onKeyDown"
+                class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 :aria-expanded="isDropdownOpen"
                 aria-haspopup="true"
               >
@@ -94,6 +107,7 @@ function toggleDropdown() {
                   class="absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 overflow-hidden"
                   role="menu"
                   aria-labelledby="user-menu-button"
+                  @keydown="onKeyDown"
                 >
                   <div class="px-4 py-3 border-b border-gray-100">
                     <p class="text-sm text-gray-600">Logged in as</p>
@@ -103,7 +117,8 @@ function toggleDropdown() {
                   <button
                     type="button"
                     @click="onSignOut"
-                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2"
+                    @keydown="onKeyDown"
+                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors flex items-center gap-2"
                     role="menuitem"
                     aria-label="Sign out"
                   >
