@@ -7,14 +7,19 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "api": "json-server --watch db.json --port 3001"
+    "api": "json-server --watch db.json --port 3001",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:slow": "powershell -Command \"$env:PLAYWRIGHT_SLOWMO='800'; npx.cmd playwright test --headed\""
   },
   "dependencies": {
     "vue": "^3.5.25",
     "vue-router": "^5.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.2",
     "json-server": "^1.0.0-beta.6",
     "tailwindcss": "^4.1.18",

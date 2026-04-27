@@ -1,0 +1,26 @@
+{
+  "requests": [
+    {
+      "id": "1",
+      "title": "VPN access for contractor",
+      "description": "Request VPN access for a contractor joining the project next week.",
+      "type": "Access",
+      "priority": "High",
+      "status": "Open",
+      "requester": "Maria",
+      "assignee": "Ana",
+      "dueDate": "2026-02-19"
+    },
+    {
+      "id": "2",
+      "title": "Notebook replacement",
+      "description": "Current device is failing during onboarding sessions and needs replacement.",
+      "type": "Equipment",
+      "priority": "Medium",
+      "status": "In Progress",
+      "requester": "Joao",
+      "assignee": "Help Desk",
+      "dueDate": "2026-03-10"
+    }
+  ]
+}

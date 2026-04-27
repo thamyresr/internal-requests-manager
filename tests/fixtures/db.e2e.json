@@ -1,0 +1,70 @@
+{
+  "requests": [
+    {
+      "id": "1",
+      "title": "VPN access for contractor",
+      "description": "Request VPN access for a contractor joining the project next week.",
+      "type": "Access",
+      "priority": "High",
+      "status": "Open",
+      "requester": "Maria",
+      "assignee": "Ana",
+      "dueDate": "2026-02-19"
+    },
+    {
+      "id": "2",
+      "title": "Notebook replacement",
+      "description": "Current device is failing during onboarding sessions and needs replacement.",
+      "type": "Equipment",
+      "priority": "Medium",
+      "status": "In Progress",
+      "requester": "Joao",
+      "assignee": "Help Desk",
+      "dueDate": "2026-03-10"
+    },
+    {
+      "id": "6109",
+      "title": "Edit request 1777324192346 Updated",
+      "description": "Updated description used to confirm that the edit form saves the new values correctly.",
+      "type": "Equipment",
+      "priority": "High",
+      "status": "In Progress",
+      "requester": "Amy",
+      "assignee": "IT Team",
+      "dueDate": "2026-06-15"
+    },
+    {
+      "id": "2c58",
+      "title": "Edit request 1777324203837 Updated",
+      "description": "Updated description used to confirm that the edit form saves the new values correctly.",
+      "type": "Equipment",
+      "priority": "High",
+      "status": "In Progress",
+      "requester": "Amy",
+      "assignee": "IT Team",
+      "dueDate": "2026-06-15"
+    },
+    {
+      "id": "1533",
+      "title": "Dashboard request 1777324213922",
+      "description": "Test focused on validating that the new request appears correctly in the dashboard table.",
+      "type": "Purchase",
+      "priority": "Medium",
+      "status": "In Progress",
+      "requester": "Amy",
+      "assignee": "Finance Team",
+      "dueDate": ""
+    },
+    {
+      "id": "cf5d",
+      "title": "Playwright request 1777324233953",
+      "description": "Request created by Playwright to validate the full form submission flow.",
+      "type": "Support",
+      "priority": "High",
+      "status": "Open",
+      "requester": "Amy",
+      "assignee": "TI Team",
+      "dueDate": "2026-05-15"
+    }
+  ]
+}
