@@ -21,6 +21,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.2",
+    "accessibility-checker": "^4.0.26",
     "json-server": "^1.0.0-beta.6",
     "tailwindcss": "^4.1.18",
     "vite": "^7.3.1"

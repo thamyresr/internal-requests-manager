@@ -1,8 +1,13 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
+import {
+  closeAccessibilityChecker,
+  expectAccessiblePage,
+} from "./helpers/accessibilityChecker";
 import { resetTestDatabase, signIn, openNewRequestForm } from "./helpers/requestTestUtils";
 
 test.beforeEach(resetTestDatabase);
+test.afterEach(closeAccessibilityChecker);
 
 test("creates a request using the form", async ({ page }) => {
   const uniqueTitle = `Playwright request ${Date.now()}`;
@@ -11,6 +16,7 @@ test("creates a request using the form", async ({ page }) => {
 
   await signIn(page);
   await openNewRequestForm(page);
+  await expectAccessiblePage(page, "create-request-form");
 
   await page.getByLabel("Title").fill(uniqueTitle);
   await page.getByLabel("Description").fill(description);

@@ -1,0 +1,12 @@
+ruleArchive: latest
+policies:
+  - IBM_Accessibility
+failLevels:
+  - violation
+reportLevels:
+  - violation
+  - potentialviolation
+outputFormat:
+  - json
+outputFolder: test-results/accessibility-checker
+outputFilenameTimestamp: false

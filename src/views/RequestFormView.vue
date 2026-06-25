@@ -13,6 +13,7 @@ const isEdit = computed(() => requestId.value != null);
 const notFound = ref(false);
 const isSubmitting = ref(false);
 const isLoading = ref(false);
+const submitError = ref("");
 
 const form = reactive({
   title: "",
@@ -69,6 +70,7 @@ function sleep(ms) {
 
 async function onSubmit() {
   if (isSubmitting.value) return;
+  submitError.value = "";
   if (!validate()) return;
 
   isSubmitting.value = true;
@@ -89,6 +91,9 @@ async function onSubmit() {
     }
 
     router.push("/dashboard");
+  } catch (err) {
+    submitError.value =
+      "Could not save the request. Check that the API server is running and try again.";
   } finally {
     isSubmitting.value = false;
   }
@@ -172,7 +177,7 @@ watchEffect(() => {
 
     <!-- Form card -->
     <section v-else class="rounded-xl border border-gray-200 bg-white p-5">
-      <form class="space-y-5" @submit.prevent="onSubmit" novalidate>
+      <form id="request-form" class="space-y-5" @submit.prevent="onSubmit" novalidate>
         <!-- Title -->
         <div>
           <label for="form-title" class="block text-sm font-medium text-gray-900">Title</label>
@@ -210,7 +215,7 @@ watchEffect(() => {
         <!-- Type / Priority -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="form-type" class="block text-sm font-medium text-gray-900">Type</label>
+            <label for="form-type" class="block text-sm font-medium text-gray-900">Request type</label>
             <select
               id="form-type"
               v-model="form.type"
@@ -226,7 +231,7 @@ watchEffect(() => {
           </div>
 
           <div>
-            <label for="form-priority" class="block text-sm font-medium text-gray-900">Priority</label>
+            <label for="form-priority" class="block text-sm font-medium text-gray-900">Request priority</label>
             <select
               id="form-priority"
               v-model="form.priority"
@@ -243,7 +248,7 @@ watchEffect(() => {
         <!-- Status / Due date -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="form-status" class="block text-sm font-medium text-gray-900">Status</label>
+            <label for="form-status" class="block text-sm font-medium text-gray-900">Request status</label>
             <select
               id="form-status"
               v-model="form.status"
@@ -259,7 +264,7 @@ watchEffect(() => {
           </div>
 
           <div>
-            <label for="form-due-date" class="block text-sm font-medium text-gray-900">Due date (optional)</label>
+            <label for="form-due-date" class="block text-sm font-medium text-gray-900">Request due date (optional)</label>
             <input
               id="form-due-date"
               v-model="form.dueDate"
@@ -273,7 +278,7 @@ watchEffect(() => {
         <!-- Requester / Assignee -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label for="form-requester" class="block text-sm font-medium text-gray-900">Requester</label>
+            <label for="form-requester" class="block text-sm font-medium text-gray-900">Request requester name</label>
             <input
               id="form-requester"
               v-model="form.requester"
@@ -296,30 +301,33 @@ watchEffect(() => {
             />
           </div>
         </div>
+
+        <p v-if="submitError" class="text-sm text-red-600" role="alert" aria-live="polite">
+          {{ submitError }}
+        </p>
+
+        <!-- Form buttons -->
+        <div class="flex gap-2 justify-start">
+          <button
+            type="button"
+            class="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+            @click="onCancel"
+            aria-label="Cancel and return to dashboard"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transition-colors"
+            :disabled="isSubmitting"
+            :aria-label="isEdit ? 'Save changes' : 'Create request'"
+          >
+            <span v-if="isSubmitting">{{ isEdit ? "Saving..." : "Creating..." }}</span>
+            <span v-else>{{ isEdit ? "Save" : "Create" }}</span>
+          </button>
+        </div>
       </form>
     </section>
-
-    <!-- Form buttons -->
-    <div class="flex gap-2 justify-start">
-      <button
-        type="button"
-        class="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-        @click="onCancel"
-        aria-label="Cancel and return to dashboard"
-      >
-        Cancel
-      </button>
-
-      <button
-        type="submit"
-        @click="onSubmit"
-        class="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 transition-colors"
-        :disabled="isSubmitting"
-        :aria-label="isEdit ? 'Save changes' : 'Create request'"
-      >
-        <span v-if="isSubmitting">{{ isEdit ? "Saving..." : "Creating..." }}</span>
-        <span v-else>{{ isEdit ? "Save" : "Create" }}</span>
-      </button>
-    </div>
   </div>
 </template>

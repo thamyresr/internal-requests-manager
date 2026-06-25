@@ -68,17 +68,20 @@ A modern, user-friendly web application built with **Vue 3** for managing intern
    npm install
    ```
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-   The application will be available at `http://localhost:5173`
-
-4. **In another terminal, start the JSON Server (optional)**
+3. **Start the JSON Server API**
    ```bash
    npm run api
    ```
-   This starts the mock API server on `http://localhost:3001`
+   This starts the mock API server at `http://localhost:3001`.
+   Keep this terminal running while using the app.
+
+4. **In another terminal, run the development server**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5173`.
+
+> On Windows PowerShell, use `npm.cmd` if `npm` is blocked by the execution policy, for example `npm.cmd run dev`.
 
 ---
 
@@ -90,6 +93,41 @@ A modern, user-friendly web application built with **Vue 3** for managing intern
 | `npm run build` | Build the project for production to the `dist/` folder |
 | `npm run preview` | Preview the production build locally |
 | `npm run api` | Start JSON Server with the mock database (port 3001) |
+| `npm run test:e2e` | Run the Playwright end-to-end test suite |
+| `npm run test:e2e:headed` | Run Playwright tests in headed browser mode |
+| `npm run test:e2e:slow` | Run Playwright tests in headed mode with slow motion |
+
+---
+
+## Testing
+
+Run the full Playwright test suite:
+
+```bash
+npm run test:e2e
+```
+
+Run only the create request flow:
+
+```bash
+npm run test:e2e -- tests/create-request.spec.js
+```
+
+The create request test also runs an accessibility scan on the request creation form using `accessibility-checker`.
+
+Accessibility reports are generated in:
+
+```text
+test-results/accessibility-checker/
+```
+
+Useful report files:
+
+```text
+test-results/accessibility-checker/create-request-form.json
+test-results/accessibility-checker/create-request-form-violations.json
+test-results/accessibility-checker/summary.json
+```
 
 ---
 
